@@ -9,10 +9,9 @@ app.use('/auth', require('./app/routes/auth'));
 
 app.use('/students', require('./app/routes/students.js'));
 
+app.use('/teachers', require('./app/routes/teachers'));
+
+
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
 });
-
-
-
-
