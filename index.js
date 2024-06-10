@@ -7,9 +7,9 @@ app.use(express.json());
 
 app.use('/auth', require('./app/routes/auth'));
 
-app.use('/students', require('./app/routes/students.js'));
+app.use('/students', require('./app/routes/studentsRegister.js'));
 
-app.use('/teachers', require('./app/routes/teachers'));
+app.use('/teachers', require('./app/routes/teachersRegister.js'));
 
 
 app.listen(process.env.PORT, () => {
