@@ -1,9 +1,13 @@
+// routes/auth.js
+
 const express = require('express');
-
-const { register } = require('../controllers/auth');
-
 const router = express.Router();
+const authController = require('../controllers/auth');
 
-router.post('/register', register);
+// Ruta para registrar un usuario
+router.post('/register', authController.register);
+
+// Ruta para iniciar sesión
+router.post('/login', authController.login);
 
 module.exports = router;
