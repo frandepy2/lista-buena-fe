@@ -1,11 +1,12 @@
-// routes/teachers.js
+// routes/teachersRegister.js
+
 const express = require('express');
 const router = express.Router();
+const authenticate = require('../middleware/auth');
+const teachersRegisterController = require('../controllers/teachersRegister');
 
-// Importar el controlador de profesores
-const { registerTeacher } = require('../controllers/teachersRegister');
-
-// Ruta para registrar un profesor
-router.post('/register', registerTeacher);
+// Aplicar el middleware de autenticación a la ruta de registro de profesores
+router.post('/register', authenticate, teachersRegisterController.registerTeacher);
 
 module.exports = router;
+
