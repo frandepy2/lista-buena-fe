@@ -1,4 +1,5 @@
-// controllers/teachers.js
+// app/controllers/teachers.js
+
 const db = require('../database/database');
 
 // Controlador para registrar un profesor

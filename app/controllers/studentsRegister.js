@@ -1,3 +1,6 @@
+// app/controllers/studentsRegister.js
+
+
 const db = require('../database/database');
 
 // Controlador para registrar un estudiante

@@ -1,3 +1,5 @@
+// app/routes/studentsRegister.js
+
 const express = require('express');
 const router = express.Router();
 const authenticate = require('../middleware/auth'); // Importa el middleware de autenticación

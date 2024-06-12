@@ -1,4 +1,4 @@
-// routes/teachersRegister.js
+// app/routes/teachersRegister.js
 
 const express = require('express');
 const router = express.Router();

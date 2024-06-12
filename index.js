@@ -1,3 +1,4 @@
+// index.js
 const express = require('express');
 const cookieParser = require('cookie-parser'); // Importar el middleware de cookies
 const app = express();
