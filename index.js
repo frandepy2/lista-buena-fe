@@ -7,6 +7,7 @@ require('dotenv').config();
 app.use(express.json());
 app.use(cookieParser()); // Usar el middleware de cookies
 
+app.use('/', require('./app/routes/auth'));
 app.use('/auth', require('./app/routes/auth'));
 app.use('/students', require('./app/routes/studentsRegister.js'));
 app.use('/teachers', require('./app/routes/teachersRegister.js'));
