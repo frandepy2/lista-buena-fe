@@ -21,3 +21,33 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Modalidad {
+  id        Int         @id @default(autoincrement())
+  modalidad String      @unique
+  participantes Participante[] @relation("ParticipanteModalidades")
+}
+
+model Colegio {
+  id      Int     @id @default(autoincrement())
+  colegio String  @unique
+  participantes Participante[]
+}
+
+model Tipo {
+  id      Int          @id @default(autoincrement())
+  tipo    String       @unique
+  participantes Participante[]
+}
+
+model Participante {
+  id         Int         @id @default(autoincrement())
+  nombre     String
+  dni        String      @unique
+  tipoId     Int
+  tipo       Tipo        @relation(fields: [tipoId], references: [id])
+  colegioId   Int
+  colegio     Colegio     @relation(fields: [colegioId], references: [id])
+  modalidades Modalidad[]   @relation("ParticipanteModalidades")
+}
+

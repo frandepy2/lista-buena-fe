@@ -1,7 +1,8 @@
 // app/middleware/auth.js
 
 const jwt = require('jsonwebtoken');
-const db = require('../database/database');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 const authenticate = async (req, res, next) => {
     // Verificar si se proporciona un token en el encabezado de autorización
@@ -20,12 +21,11 @@ const authenticate = async (req, res, next) => {
         const userId = decoded.userId;
 
         // Verificar si el ID de usuario existe en la base de datos
-        const user = await new Promise((resolve, reject) => {
-            db.get('SELECT * FROM users WHERE id = ?', [userId], (err, row) => {
-                if (err) return reject(err);
-                resolve(row);
-            });
-        });
+        const user = await prisma.user.findUnique({
+            where : {
+                id: userId
+            }
+        })
 
         // Si no se encuentra el usuario en la base de datos, devolver un error de autenticación
         if (!user) {

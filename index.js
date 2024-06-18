@@ -11,8 +11,7 @@ app.get('/',(req,res)=>{
     res.send('hola mundo');
 });
 app.use('/auth', require('./app/routes/auth.js'));
-app.use('/students', require('./app/routes/studentsRegister.js'));
-app.use('/teachers', require('./app/routes/teachersRegister.js'));
+app.use('/students', require('./app/routes/participant.js'));
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
