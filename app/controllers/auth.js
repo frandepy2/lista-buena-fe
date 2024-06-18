@@ -52,11 +52,10 @@ const login = async (req, res) => {
 
     try {
         // Buscar el usuario en la base de datos por su nombre de usuario
-        const user = await new Promise((resolve, reject) => {
-            db.get('SELECT * FROM users WHERE username = ?', [username], (err, row) => {
-                if (err) return reject(err);
-                resolve(row);
-            });
+        const user = await prisma.user.findUnique({
+            where: {
+                username: username
+            }
         });
 
         // Verificar si el usuario existe y si la contraseña coincide
@@ -71,7 +70,7 @@ const login = async (req, res) => {
         res.cookie('token', token, { httpOnly: true });
 
         // Enviar el token JWT junto con un mensaje de éxito como respuesta
-        res.json({ message: 'Login successful', token });
+        res.status(200).json({ message: 'Login successful', token:token });
     } catch (error) {
         return res.status(500).json({ message: 'Internal server error', error: error.message });
     }
