@@ -7,8 +7,11 @@
     "dev": "nodemon index.js",
     "prod": "node index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "lista_buena_fe",
+    "heroku"
+  ],
+  "author": "Francisco Sanabria",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -21,5 +24,8 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.2"
+  },
+  "engines": {
+    "node": "20.x"
   }
 }
