@@ -2,7 +2,8 @@
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const db = require('../database/database');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 const register = async (req, res) => {
     const { username, password, superuser } = req.body;
@@ -12,16 +13,15 @@ const register = async (req, res) => {
         return res.status(400).json({ message: 'All fields are required' });
     }
 
+    // Verificar si el usuario ya existe
     try {
-        // Verificar si el usuario ya existe
-        const existingUser = await new Promise((resolve, reject) => {
-            db.get('SELECT * FROM users WHERE username = ?', [username], (err, row) => {
-                if (err) return reject(err);
-                resolve(row);
-            });
+        const user = await prisma.user.findUnique({
+            where: {
+                username: username
+            }
         });
 
-        if (existingUser) {
+        if (user) {
             return res.status(400).json({ message: 'User already exists' });
         }
 
@@ -33,13 +33,13 @@ const register = async (req, res) => {
             return res.status(400).json({ message: 'superuser must be a boolean' });
         }
 
-        // Guardar el usuario
-        await new Promise((resolve, reject) => {
-            db.run('INSERT INTO users (username, password, superuser) VALUES (?, ?, ?)', [username, hashedPassword, superuser], (err) => {
-                if (err) return reject(err);
-                resolve();
-            });
-        });
+        const newUser = await prisma.user.create({
+            data: {
+                username: username,
+                password: hashedPassword,
+                superuser: superuser,
+            }
+        })
 
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
