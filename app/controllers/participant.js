@@ -3,12 +3,19 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const registerParticipant = async (req, res) => {
+    console.log("llegue aca");
     const { name, dni, type, gamemode, school } = req.body;
+
+    console.log(name, dni, type, gamemode, school);
 
     // Verificar que se hayan enviado todos los campos necesarios
     if (!name || !dni || !type || !school || !gamemode) {
         return res.status(400).json({ message: 'All fields are required' });
     }
+
+    //parsea type a entero
+    var typeInt = Number.parseInt(type);
+    var schoolInt = Number.parseInt(school);
 
     try {
         // Verificar si el estudiante ya está registrado por el DNI
@@ -35,10 +42,10 @@ const registerParticipant = async (req, res) => {
                 nombre: name,
                 dni: dni,
                 tipo: {
-                    connect: { id: type },
+                    connect: { id: typeInt },
                 },
                 colegio: {
-                    connect: { id: school },
+                    connect: { id: schoolInt },
                 },
                 modalidades: {
                     connect: gamemode.map((modalidadId) => ({ id: modalidadId })),
@@ -48,6 +55,7 @@ const registerParticipant = async (req, res) => {
 
         res.status(201).json({ message: 'Student registered successfully' });
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: 'Database error', error: error.message });
     }
 };
@@ -68,7 +76,7 @@ const getDatos = async (req, res) => {
 }
 
 const getStudentData = async (req, res) => {
-    const {dni} = req.body;
+    const {dni} = req.query;
     try {
         const participante = await prisma.participante.findUnique({
             where: { dni: dni },
